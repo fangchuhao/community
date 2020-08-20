@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>名创优品-激活账号</title>
+</head>
+<body>
+	<div>
+		<p>
+			<b th:text="${mail}">xxx@xxx.com</b>, 您好!
+		</p>
+		<p>
+			您正在注册名创优品官网, 这是一封激活邮件, 请点击
+			<a th:href="@{${url}}">此链接</a>,
+			激活您的名创优品账号!
+		</p>
+	</div>
+</body>
+</html>

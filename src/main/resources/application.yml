@@ -1,0 +1,125 @@
+server:
+  port: 9080
+  servlet:
+    context-path: /community
+# DataSourceProperties
+spring:
+  thymeleaf:
+    cache: false
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/community?characterEncoding=utf-8&useSSL=false&serverTimezone=Hongkong
+    username: root
+    password: 123456
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      maximum-pool-size: 15
+      minimum-idle: 5
+      idle-timeout: 30000
+  redis:
+    database: 11
+    host: localhost
+    port: 6379
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+      exclude: WEB-INF/**
+  mail:
+    host: smtp.qq.com
+    username: 2415966685@qq.com
+    password: inoajqmmwydpdjgg
+    port: 465
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+#Kafka 配置
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: test-consumer-group
+      enable-auto-commit: true
+      #自动提交的频率
+      auto-commit-interval: 3000ms
+  data:
+#elasticsearch 配置
+    elasticsearch:
+      cluster-name: miniso
+      cluster-nodes: 127.0.0.1:9300
+#线程池配置
+  task:
+    execution:
+      pool:
+        core-size: 5
+        max-size: 15
+        #队列容量
+        queue-capacity: 100
+    scheduling:
+      pool:
+        size: 5
+  #定时任务配置
+  quartz:
+    job-store-type: jdbc
+    scheduler-name: communityScheduler
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceId: AUTO
+          jobStore:
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            isClustered: true
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 5
+
+
+# MybatisProperties
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.demo.entity
+  configuration:
+    useGeneratedKeys: true
+    mapUnderscoreToCamelCase: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  level:
+    com.example.demo.mapper: debug
+
+#path
+community:
+  path:
+    domain: http://localhost:${server.port}${server.servlet.context-path}
+    upload: D:/work/data/upload
+  headerUrl:
+    type: png,jpg,jpeg,gif
+#wk的配置
+wk:
+  image:
+    command: d:/javasoft/wkhtmltopdf/bin/wkhtmltoimage
+    storagePath: d:/work/data/wk-image
+#配置七牛云的秘钥
+qiniu:
+  accessKey: 4UVvsSnZ9biQTQemrxZnDTbEdhgt0c8-pgxmY3Y7
+  secretKey: 2RkvbnkFD0TcFZEuMHbSZnkmJNklSuUGeMxqPiWK
+  bucket:
+    header:
+      httpUrl: http://
+      name: ccommunityheader
+    share:
+      httpUrl: http://
+      name: ccommunityshare
+# caffeine
+caffeine:
+  posts:
+    maxSize: 15
+    expireSeconds: 180
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
